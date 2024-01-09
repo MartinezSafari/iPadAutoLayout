@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-class ViewController: UIViewController, WKNavigationDelegate {
+class ViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegate {
     
     @IBOutlet var webView : WKWebView!
     @IBOutlet var activity : UIActivityIndicatorView!
@@ -18,6 +18,36 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     @IBOutlet var lbName : UILabel!
     @IBOutlet var lbEmail : UILabel!
+    
+    func doTheUpdate(){
+        let data : Data = .init()
+        data.initWithStuff(theName: tfName.text!, theEmail: tfEmail.text!)
+        
+        lbName.text = data.savedName
+        lbEmail.text = data.savedEmail
+    }
+    
+    @IBAction func updateLabels (sender : Any){
+        let alert = UIAlertController(title: "Warning", message: "Are you sure", preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Yes", style: .default, handler:
+                                        {
+            (alert : UIAlertAction!) in self.doTheUpdate()
+            self.dismiss(animated: true, completion: nil)
+        })
+        
+        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        
+        alert.addAction(yesAction)
+        alert.addAction(noAction)
+        
+        present(alert, animated: true)
+    }
+    
+    //Function to remove the keyboard
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return textField.resignFirstResponder()
+    }
     
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         activity.isHidden = false

@@ -61,12 +61,18 @@ class ViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        //Connect to my GitHub repository
-        let urlAddress = URL(string: "https://www.nintendo.com/us/store/games/")
-        let url = URLRequest(url: urlAddress!)
-        webView.load(url)
-        webView.navigationDelegate = self
         
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            
+            let urlAddress = URL(string: "https://www.nintendo.com/us/store/games/")
+            let url = URLRequest(url: urlAddress!)
+            webView.load(url)
+            webView.navigationDelegate = self
+        }
+        else{
+            webView.isHidden = true
+            activity.isHidden = true
+        }
     }
 
 
